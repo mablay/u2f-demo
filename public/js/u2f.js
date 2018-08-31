@@ -6,19 +6,22 @@ const APP_ID = 'https://localhost:8000'
 function authenticate() {
 	ajaxGet("/api/sign_request", function(authRequest) {
 			var req = JSON.parse(authRequest);
-			// delete req.version
-			console.log('[authenticate] sign_request responded with', req)
-			console.log("[authenticate] Press your key");
+			// console.log('[authenticate] sign_request responded with', req)
+			// console.log("[authenticate] Press your key");
+			const authText = document.getElementById('authtext')
+			authText.innerHTML = 'Press U2F Key!'
 			// alert('Press the button!')
 			u2f.sign(APP_ID, req.challenge, [req], function(res) {
-				console.log('[authenticate] sign res', res);
+				// console.log('[authenticate] sign res', res);
 				ajaxPost("/api/authenticate", res, function(res) {
 					res = JSON.parse(res);
 					if (res.error) {
-						alert(res.error);
+						authText.innerHTML = JSON.stringify(res)
+						// alert(res.error);
 						return;
 					} else {
-						alert(JSON.stringify(res.secretData, true, 5));
+						authText.innerHTML = JSON.stringify(res.secretData)
+						// alert(JSON.stringify(res.secretData, true, 5));
 					}
 				});
 			});
@@ -31,16 +34,19 @@ function register() {
 	ajaxGet("/api/register_request", function(authRequest) {
 			var req = JSON.parse(authRequest);
 			// req.attestation = 'direct'
-			console.log('[register] received authRequest', req)
+			// console.log('[register] received authRequest', req)
 			// alert("Press your key");
-			console.log('PRESS KEY NOW!')
+			const regText = document.getElementById('regtext')
+			regText.innerHTML = 'Press U2F Key!'
 			u2f.register(APP_ID, [req], [], function(res) {
-				console.log('[register] requesting /api/register');
+				regText.innerHTML = ''
+
+				// console.log('[register] requesting /api/register');
 				ajaxPost("/api/register", res, function(res) {
 					if (res === "true") {
-						alert("Successfully registered that key. You can now view student data.");
+						regText.innerHTML = 'Key registered!'
 					} else {
-						alert(res);
+						regText.innerHTML = JSON.stringify(res)
 					}
 				});
 			});

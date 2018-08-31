@@ -16,9 +16,9 @@ function getIndex (req, res) {
 
 // /api/register_request
 function registerRequest (req, res) {
-  console.log('[registerRequest], APP_ID:', APP_ID)
+  // console.log('[registerRequest], APP_ID:', APP_ID)
   var authRequest = u2f.request(APP_ID)
-  console.log('[registerRequest], authRequest:', authRequest)
+  // console.log('[registerRequest], authRequest:', authRequest)
   Sessions[req.cookies.userid] = { authRequest: authRequest }
   res.send(JSON.stringify(authRequest))
 }
@@ -32,13 +32,13 @@ function signRequest (req, res) {
 
 // /api/register
 function register (req, res) {
-  console.log('[register] body:', req.body)
+  // console.log('[register] body:', req.body)
   const authRequest = Sessions[req.cookies.userid].authRequest
-  console.log('[session] authRequest', authRequest)
+  // console.log('[session] authRequest', authRequest)
   var checkRes = u2f.checkRegistration(authRequest, req.body)
-  console.log(checkRes)
+  // console.log(checkRes)
+  console.log('[register] Key registration:', checkRes)
   if (checkRes.successful) {
-    console.log('[register] success', checkRes.publicKey, checkRes.keyHandle)
     Users[req.cookies.userid] = { publicKey: checkRes.publicKey, keyHandle: checkRes.keyHandle }
     res.send(true)
   } else {
@@ -48,13 +48,15 @@ function register (req, res) {
 
 // POST /api/authenticate
 function authenticate (req, res) {
-  console.log(req.body)
+  // console.log(req.body)
   var checkRes = u2f.checkSignature(
     Sessions[req.cookies.userid].authRequest,
     req.body,
     Users[req.cookies.userid].publicKey
   )
-  console.log(checkRes)
+  // console.log(checkRes)
+  console.log('[authenticate] Key authentication:', checkRes)
+
   if (checkRes.successful) {
     res.send({ success: true, secretData: secretMessage })
   } else {

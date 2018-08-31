@@ -7,10 +7,16 @@
   <h1>U2F Example</h1>
 
   <p>Greetings! To access this feature you must add a U2F 2FA key to your account.</p>
-  <input type="button" value="Register a 2FA key" onClick="register()">
+  <input autofocus="" type="button" value="Register a 2FA key" onClick="register()">
+  <div class="status">
+    <span id="regtext"></span><br>
+  </div>
 
   <p>If you have already added a key to your account, you can use it to access student data.</p>
   <input type="button" value="View super secret student data" onClick="authenticate()">
+  <div class="status">
+    <span id="authtext"></span><br>
+  </div>
 
   <script src="./js/u2f-api.js"></script>
   <script src="./js/u2f.js"></script>

@@ -288,7 +288,6 @@ u2f.WrappedChromeRuntimePort_ = function(port) {
  */
 u2f.formatSignRequest_ =
   function(appId, challenge, registeredKeys, timeoutSeconds, reqId) {
-    console.log('[api], u2f.formatSignRequest_ js_api_version', js_api_version);
   if (js_api_version === undefined || js_api_version < 1.1) {
     // Adapt request to the 1.0 JS API
     var signRequests = [];
@@ -655,7 +654,6 @@ u2f.sendSignRequest = function(appId, challenge, registeredKeys, callback, opt_t
     var timeoutSeconds = (typeof opt_timeoutSeconds !== 'undefined' ?
         opt_timeoutSeconds : u2f.EXTENSION_TIMEOUT_SEC);
     var req = u2f.formatSignRequest_(appId, challenge, registeredKeys, timeoutSeconds, reqId);
-    console.log('[api] req', req);
     port.postMessage(req);
   });
 };
