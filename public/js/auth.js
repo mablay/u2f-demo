@@ -4,28 +4,17 @@
  */
 function authenticate () {
   const authText = document.getElementById('authtext')
-  fetch('/api/sign_request')
-    .then(response => response.json())
+  jsonGet('/api/sign_request')
     .then(u2fKey => {
       if (u2fKey.error === 'NO_KEY') {
         throw new Error(u2fKey.error)
       }
-      // console.log('[authenticate] sign_request responded with', u2fKey)
       authText.innerHTML = 'Press U2F Key!'
       return new Promise((resolve) => {
         u2f.sign(APP_ID, u2fKey.challenge, [u2fKey], resolve)
       })
     })
-    .then(res => {
-      return fetch('/api/authenticate', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(res)
-      })
-    })
-    .then(authResponse => authResponse.json())
+    .then(res => jsonPost('/api/authenticate', res))
     .then(authResponse => {
       if (authResponse.error) {
         authText.innerHTML = JSON.stringify(authResponse)
