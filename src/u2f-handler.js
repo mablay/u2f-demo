@@ -1,7 +1,6 @@
 var u2f = require('u2f')
 const { APP_ID } = require('./constants')
 var secretMessage = require('../data/secure.json')
-// const fs = require('fs')
 const Path = require('path')
 var Sessions = {}
 var Users = {}
@@ -25,6 +24,9 @@ function registerRequest (req, res) {
 
 // /api/sign_request
 function signRequest (req, res) {
+  if (!req.cookies.userid || !Users[req.cookies.userid]) {
+    return console.warn('Your cookies indicate no registered U2F key. Register your key first!')
+  }
   var authRequest = u2f.request(APP_ID, Users[req.cookies.userid].keyHandle)
   Sessions[req.cookies.userid] = { authRequest: authRequest }
   res.send(JSON.stringify(authRequest))

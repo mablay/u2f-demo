@@ -1,5 +1,10 @@
 /* eslint-disable */
-const APP_ID = 'https://localhost:8000'
+
+const APP_ID = window.location.origin
+console.log(`Using "${APP_ID}" as APP_ID. This must equal the APP_ID provided in the nodejs logs.`)
+const appid = document.getElementById('appid')
+appid.innerHTML = `APP_ID: "${APP_ID}"`
+
 /* Get an authentication request from the server,
  * sign it with the key, verify the results on the server
  */
@@ -27,31 +32,7 @@ function authenticate() {
 			});
 	});
 }
-/* Get a registration request from the server, use it to register the key, send the results back
- * to server and check if it was successful
- */
-function register() {
-	ajaxGet("/api/register_request", function(authRequest) {
-			var req = JSON.parse(authRequest);
-			// req.attestation = 'direct'
-			// console.log('[register] received authRequest', req)
-			// alert("Press your key");
-			const regText = document.getElementById('regtext')
-			regText.innerHTML = 'Press U2F Key!'
-			u2f.register(APP_ID, [req], [], function(res) {
-				regText.innerHTML = ''
 
-				// console.log('[register] requesting /api/register');
-				ajaxPost("/api/register", res, function(res) {
-					if (res === "true") {
-						regText.innerHTML = 'Key registered!'
-					} else {
-						regText.innerHTML = JSON.stringify(res)
-					}
-				});
-			});
-	});
-}
 /* Very basic ajax functions */
 function ajaxGet(url, cb) {
 	var xhr = new XMLHttpRequest();

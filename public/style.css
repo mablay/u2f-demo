@@ -1,3 +1,17 @@
 .status {
   margin-top: 1em;
 }
+
+#appid {
+  color: grey;
+}
+
+.icon {
+  margin-right: 8px;
+  fill: white;
+  /* size: 20px; */
+}
+
+.view {
+  padding: 15px
+}
