@@ -6,9 +6,7 @@ function authenticate () {
   const authText = document.getElementById('authtext')
   jsonGet('/api/sign_request')
     .then(u2fKey => {
-      if (u2fKey.error === 'NO_KEY') {
-        throw new Error(u2fKey.error)
-      }
+      if (u2fKey.error) throw new Error(u2fKey.error)
       authText.innerHTML = 'Press U2F Key!'
       return new Promise((resolve) => {
         u2f.sign(APP_ID, u2fKey.challenge, [u2fKey], resolve)
@@ -19,12 +17,13 @@ function authenticate () {
       if (authResponse.error) {
         authText.innerHTML = JSON.stringify(authResponse)
       } else {
-        authText.innerHTML = JSON.stringify(authResponse.secretData)
+        authText.innerHTML = authResponse.secretData.message
       }
     })
     .catch(err => {
       if (err.message === 'NO_KEY') {
-        authText.innerHTML = 'The server doesn\'t know your key. <a href="/">register</a> your key first!'
+        authText.innerHTML = 'The server doesn\'t know your key. <a id="registerLink" href="/">register</a> your key first!'
+        document.getElementById('registerLink').focus()
       } else {
         console.error(err)
       }

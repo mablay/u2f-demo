@@ -19,7 +19,7 @@ function registerRequest (req, res) {
   var authRequest = u2f.request(APP_ID)
   // console.log('[registerRequest], authRequest:', authRequest)
   Sessions[req.cookies.userid] = { authRequest: authRequest }
-  res.send(JSON.stringify(authRequest))
+  res.json(authRequest)
 }
 
 // /api/sign_request
@@ -30,7 +30,7 @@ function signRequest (req, res) {
   }
   var authRequest = u2f.request(APP_ID, Users[req.cookies.userid].keyHandle)
   Sessions[req.cookies.userid] = { authRequest: authRequest }
-  res.send(JSON.stringify(authRequest))
+  res.json(authRequest)
 }
 
 // /api/register
@@ -43,9 +43,9 @@ function register (req, res) {
   console.log('[register] Key registration:', checkRes)
   if (checkRes.successful) {
     Users[req.cookies.userid] = { publicKey: checkRes.publicKey, keyHandle: checkRes.keyHandle }
-    res.send(true)
+    res.json(true)
   } else {
-    res.send(checkRes.errorMessage)
+    res.json(checkRes.errorMessage)
   }
 }
 
@@ -61,9 +61,9 @@ function authenticate (req, res) {
   console.log('[authenticate] Key authentication:', checkRes)
 
   if (checkRes.successful) {
-    res.send({ success: true, secretData: secretMessage })
+    res.json({ success: true, secretData: secretMessage })
   } else {
-    res.send({ error: checkRes.errorMessage })
+    res.json({ error: checkRes.errorMessage })
   }
 }
 
