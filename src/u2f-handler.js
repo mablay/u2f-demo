@@ -43,7 +43,8 @@ function register (req, res) {
   console.log('[register] Key registration:', checkRes)
   if (checkRes.successful) {
     Users[req.cookies.userid] = { publicKey: checkRes.publicKey, keyHandle: checkRes.keyHandle }
-    res.json(true)
+    if (checkRes.certificate) checkRes.certificate = checkRes.certificate.toString('hex')
+    res.json(checkRes)
   } else {
     res.json(checkRes.errorMessage)
   }

@@ -16,11 +16,16 @@ function register () {
     })
     .then(res => {
       regText.innerHTML = ''
+      const res2 = {...res}
+      if (res2.clientData) res2.clientData = JSON.parse(window.atob(res2.clientData))
+      document.getElementById('dRegisterRequest').innerHTML = JSON.stringify(res2, null, 4)
       // console.log('[register] requesting /api/register')
       return jsonPost('/api/register', res)
     })
     .then(res => {
-      if (res === true) {
+      if (res.certificate) res.certificate.data = '[...]'
+      document.getElementById('dRegister').innerHTML = JSON.stringify(res, null, 4)
+      if (res.successful === true) {
         regText.innerHTML = 'Key registered! You are ready to <a href="auth" id="authLink">Authenticate</a>'
         document.getElementById('authLink').focus()
       } else {

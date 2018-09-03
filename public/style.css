@@ -15,3 +15,8 @@
 .view {
   padding: 15px
 }
+
+nav.navbar-light .navbar-nav .nav-link.active {
+  color: black; /* secondary: #17a2b8;  primary: #007bff; */
+  font-weight: bold;
+}

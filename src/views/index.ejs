@@ -1,14 +1,21 @@
 <div class="view view-register">
   <h3>Register your key</h3>
   <input
-    class="btn btn-primary"
+    class="btn btn-outline-primary"
     type="button"
     autofocus=""
     onClick="register()"
-    value="Register a 2FA key">
+    value="&#128273; Register a 2FA key">
   <div class="status alert alert-info">
     <span id="regtext"></span><br>
   </div>
+
+  <h4>Debug</h4>
+  <h5>Register Request Response</h5>
+  <pre id="dRegisterRequest"></pre>
+  <h5>Register Response</h5>
+  <pre id="dRegister"></pre>
+
 </div>
 
 <script src="./js/register.js" ></script>

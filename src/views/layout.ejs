@@ -12,21 +12,18 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="/">Register <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="/auth">Authenticate</a>
-        <a class="nav-item nav-link" href="/otp">OTP</a>
+        <a class="nav-item nav-link <% if (view === 'index') { %>active<% } %>" href="/">Register <span class="sr-only">(current)</span></a>
+        <a class="nav-item nav-link <% if (view === 'auth') { %>active<% } %>" href="/auth">Authenticate</a>
+        <a class="nav-item nav-link <% if (view === 'otp') { %>active<% } %>" href="/otp">OTP</a>
       </div>
     </div>
   </nav>
-
-  <script src="./js/u2f-api.js"></script>
 
   <%- include(view, {data}) %>
 
   <div id="appid" class="fixed-bottom text-right"></div>
 
-  <script src="./js/u2f.js"></script>
-
-  <!-- <script src="./js/script.js"></script> -->
+  <script src="./js/u2f-api.js"></script>
+  <script src="./js/util.js"></script>
 </body>
 </html>

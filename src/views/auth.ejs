@@ -1,13 +1,20 @@
 <div class="view view-auth d-hidden">
   <h3>Authenticate with your key</h3>
-  <input class="btn btn-primary"
+  <input class="btn btn-outline-primary"
          autofocus=""
          type="button"
-         value="Authenticate"
+         value="&#128273; Authenticate"
          onClick="authenticate()">
   <div class="status alert alert-info">
     <span id="authtext"></span><br>
   </div>
+
+  <h4>Debug</h4>
+  <h5>Sign Request Response</h5>
+  <pre id="dSignRequest"></pre>
+  <h5>Authenticate Response</h5>
+  <pre id="dAuthenticate"></pre>
+
 </div>
 
 <script src="./js/auth.js" ></script>

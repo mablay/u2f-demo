@@ -12,8 +12,14 @@ function authenticate () {
         u2f.sign(APP_ID, u2fKey.challenge, [u2fKey], resolve)
       })
     })
-    .then(res => jsonPost('/api/authenticate', res))
+    .then(res => {
+      const res2 = {...res}
+      if (res2.clientData) res2.clientData = JSON.parse(window.atob(res2.clientData))
+      document.getElementById('dSignRequest').innerHTML = JSON.stringify(res2, null, 4)
+      return jsonPost('/api/authenticate', res)
+    })
     .then(authResponse => {
+      document.getElementById('dAuthenticate').innerHTML = JSON.stringify(authResponse, null, 4)
       if (authResponse.error) {
         authText.innerHTML = JSON.stringify(authResponse)
       } else {
