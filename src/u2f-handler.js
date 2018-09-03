@@ -25,7 +25,8 @@ function registerRequest (req, res) {
 // /api/sign_request
 function signRequest (req, res) {
   if (!req.cookies.userid || !Users[req.cookies.userid]) {
-    return console.warn('Your cookies indicate no registered U2F key. Register your key first!')
+    console.log('Client cookies indicate no registered U2F key.')
+    return res.json({ error: 'NO_KEY' })
   }
   var authRequest = u2f.request(APP_ID, Users[req.cookies.userid].keyHandle)
   Sessions[req.cookies.userid] = { authRequest: authRequest }
