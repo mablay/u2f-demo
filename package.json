@@ -1,6 +1,6 @@
 {
   "name": "u2f-demo",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "U2F NodeJS + browser showcase",
   "main": "src/server.js",
   "scripts": {
@@ -22,6 +22,7 @@
     "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
+    "modhex": "^1.0.0",
     "u2f": "^0.1.3"
   },
   "devDependencies": {

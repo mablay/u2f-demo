@@ -1,7 +1,34 @@
 <div class="view view-otp">
-  <p>Verify using your keys OTP feature</p>
-  <input class="btn btn-primary" type="button" value="Verify" onClick="verify()">
-  <div class="status">
+  <p>
+    One time passcode verification involves an <a href="https://developers.yubico.com/OTP/OTPs_Explained.html">OTP verification server</a>.
+    Yubico provides it <a href="https://upgrade.yubico.com/getapikey/">as a service</a> and requires an API key.
+    Alternatively You can <a href="https://developers.yubico.com/OTP/Guides/Self-hosted_OTP_validation.html">setup your own infrastructure</a> using e.g. the
+    <a href="https://developers.yubico.com/YubiHSM2/Product_Overview/">YubikeyHSM</a> to <a href="https://developers.yubico.com/YubiHSM2/Commands/Otp_Decrypt.html">decrypt the otp</a>.<br>
+    Without the OTP infrastructure we can only deduce yubikey device id and
+    the encrypted passcode from a given otp.
+  </p>
+
+  <div class="input-group mb-3">
+    <input id="otp"
+           type="text"
+           autofocus=""
+           class="form-control"
+           onkeypress="if (event.keyCode === 13) verify()"
+           placeholder="Enter OTP here">
+    <div class="input-group-append">
+      <button class="btn btn-outline-primary"
+              type="button"
+              onClick="verify()">Button</button>
+    </div>
+  </div>
+  <div class="status alert alert-info">
     <span id="otptext"></span><br>
   </div>
+
+  <h4>Debug</h4>
+  <h5>Server Response</h5>
+  <pre id="dVerify"></pre>
+
 </div>
+
+<script src="./js/otp.js" ></script>

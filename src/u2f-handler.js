@@ -1,17 +1,18 @@
-var u2f = require('u2f')
+const u2f = require('u2f')
+const modhex = require('modhex')
 const { APP_ID } = require('./constants')
-var secretMessage = require('../data/secure.json')
-const Path = require('path')
-var Sessions = {}
-var Users = {}
+const secretMessage = require('../data/secure.json')
+// const Path = require('path')
+const Sessions = {}
+const Users = {}
 
 // GET /
-function getIndex (req, res) {
-  if (!req.cookies.userid) {
-    res.cookie('userid', Math.floor(Math.random() * 100000))
-  }
-  res.sendFile(Path.join(__dirname, '..', 'public', 'index.html'))
-}
+// function getIndex (req, res) {
+//   if (!req.cookies.userid) {
+//     res.cookie('userid', Math.floor(Math.random() * 100000))
+//   }
+//   res.sendFile(Path.join(__dirname, '..', 'public', 'index.html'))
+// }
 
 // /api/register_request
 function registerRequest (req, res) {
@@ -68,10 +69,27 @@ function authenticate (req, res) {
   }
 }
 
+// POST /api/verify
+function verifyOtp (req, res) {
+  if (!req.body.otp) {
+    return res.json({ error: 'Missing "otp" property!' })
+  }
+  const otp = modhex.decode(req.body.otp)
+  const keyId = parseInt(otp.substring(0, 12), 16)
+  const encryptedPasscode = otp.substring(12)
+  // console.log('[verifyOtp] otp:', otp)
+  console.log('[verifyOtp] keyId:', keyId)
+  console.log('[verifyOtp] encryptedPasscode:', encryptedPasscode)
+  res.json({
+    keyId,
+    encryptedPasscode
+  })
+}
+
 module.exports = {
-  getIndex,
   registerRequest,
   signRequest,
   register,
-  authenticate
+  authenticate,
+  verifyOtp
 }
