@@ -23,9 +23,9 @@ NPMs postinstall script will automatically generate the SSL certificate.
 But you can also generate the https server credentials manually in `./keystore` directory.
 
     openssl req -x509 -out server.crt -keyout server.key \
-  -newkey rsa:2048 -nodes -sha256 \
-  -subj '/CN=localhost' -extensions EXT -config <( \
-   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+      -newkey rsa:2048 -nodes -sha256 \
+      -subj '/CN=localhost' -extensions EXT -config <( \
+       printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 
 ## Further reading
